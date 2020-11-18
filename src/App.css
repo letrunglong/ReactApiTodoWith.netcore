@@ -1,38 +1,60 @@
-.App {
+@import '~antd/dist/antd.css';
+.container{
+  margin: 10px 10px;
+  width: 100%;
+}
+.row{
+  width: 100%;
+}
+/* ._1{
+  background-color: red;
+  text-align: left;
+  margin: 10px 0px;
+  width: 100;
+} */
+.main-content{
+  /* background-color: red; */
+  width: 100%;
+  display: flex !important;
+  justify-content: space-around !important;
+  flex-wrap: wrap;
+  margin-left: 0 !important;
+}
+.main-content .one-item{
+  width: 29%;
+  margin-bottom:20px;
+  margin-top:0px;
+  background-color: blanchedalmond;
+  padding: 10px;
+}
+.main-content .one-item .title{
+  font-size: 20px !important;
+  display: flex;
+  font-weight: 600;
+}
+.main-content .one-item .title >:first-child{
+  color: blueviolet !important;
+  margin-right: 60px;
+}
+.main-content .one-item .content>:first-child,
+.main-content .one-item .command>:first-child{
+  color: black !important;
+  margin-right: 20px;
+  font-weight: 600;
+}
+.main-content .one-item .content>:first-child{
+  margin-right: 45px;
+}
+.main-content .one-item .content,.main-content .one-item .command{
+  display: flex;
+  font-size: 18px;
+}
+.main-content .one-item .command{}
+.main-content .one-item .bottom{
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main-content .one-item .bottom .but{}
+.main-content .one-item .bottom .but.but-1{
+  margin-right: 20px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+.main-content .one-item .bottom .but.but-2{}
