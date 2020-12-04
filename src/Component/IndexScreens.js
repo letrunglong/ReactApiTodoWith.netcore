@@ -3,7 +3,7 @@ import { Button, Row, Col, Input } from 'antd';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/commands/'
+  baseURL: 'http://localhost:5000/'
 })
 
 class IndexScreens extends Component {
@@ -37,25 +37,40 @@ class IndexScreens extends Component {
     });
   }
   getApi = async () => {
-    let data = await api.get('/').then(({ data }) => data);
+    let data = await api.get('/api/commands').then(({ data }) => data);
     this.setState({ courses: data })
   }
   createCourse = async () => {
     if (this.state.how === "" || this.state.plat === "" || this.state.command === "") {
       alert('Value not be null')
     } else {
-      let res = await api.post('/', { howto: this.state.how, platform: this.state.plat, commandline: this.state.command })
+      let res = await api.post('/api/commands', { howto: this.state.how, platform: this.state.plat, commandline: this.state.command })
       this.getApi();
     }
 
   }
   deleteCourse = async (id) => {
-    let data = await api.delete(`/${id}`)
+    let data = await api.delete(`/api/commands/${id}`)
     this.getApi();
   }
 
-  updateCourse = async (id, value) => {
-    let data = await api.patch(`/${id}`, { howto: value })
+  updateCourse = async (id) => {
+    // let data = await api.patch(`/${id}`, { howto: value })
+    // map liên quan gì vậy? để làm gì nay search thay . sua lai theo ma no cung deo chay
+    if (this.state.how === "" || this.state.plat === "" || this.state.command === "") {
+      alert('Value not be null')
+    } else {
+      let res = await api.put(`/api/commands/${id}`, { id, howto: this.state.how, platform: this.state.plat, commandline: this.state.command })
+      this.getApi();
+    }
+
+    // courses.map(courses=>{
+    //   if(courses.id===id){
+    //     courses.howto = this.state.howto;
+    //     courses.platform = this.state.platform;
+    //     courses.commandline = this.state.commandline;
+    //   }
+    // })
     this.getApi()
   }
   render() {

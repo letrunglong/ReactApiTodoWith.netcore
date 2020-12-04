@@ -1,62 +1,95 @@
 import './App.css';
-
 import axios from 'axios';
 import { Component } from 'react';
 import './App.css';
 import IndexScreens from './Component/IndexScreens';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect,
+  useHistory 
 } from "react-router-dom";
+import Home from './Component/Home'
 
 
-const api = axios.create({
-  baseURL: 'http://localhost:5000/api/commands/'
-})
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      loggedInStatus: false,
+      user: {},
+      msg: ""
+    };
+
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  checkLoginStatus() {
+    return localStorage.getItem("isL");
+  }
+
+  componentDidMount() {
+  }
+
+  handleLogout() {
+    this.setState({
+      loggedInStatus: false,
+      user: {}
+    });
+  }
+
+  handleLogin(data) {
+    //logout set false
+    localStorage.setItem('isL', data.id ? true : false);
+    this.setState({
+      loggedInStatus: data.id ? true : false,
+      user: data.user || {},
+      msg: !data.user ? data : ""
+    });
+  }
   render() {
     return (
       <div className="container">
-        <Router>
-          <div>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/dashboard">Dashboard</Link>
-              </li>
-            </ul>
-            <hr />
-            <Switch>
-              <Route exact path="/">
-                <IndexScreens />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/dashboard">
-                <Dashboard />
-              </Route>
-            </Switch>
-          </div>
-        </Router>
+        <BrowserRouter>
+          <Switch>
+            <Route
+              exact
+              path={"/"}
+              render={props => {
+              let isLogin =  this.checkLoginStatus();
+              if(isLogin)
+                return  <Redirect to="/dashboard" />
+                return (
+                <Home
+                  {...props}
+                  handleLogin={this.handleLogin}
+                  handleLogout={this.handleLogout}
+                  loggedInStatus={this.state.loggedInStatus}
+                />
+              )
+            }
+          }
+            />
+            <Route
+              exact
+              path={"/dashboard"}
+              render={props => (
+                <IndexScreens
+                  {...props}
+                  loggedInStatus={this.state.loggedInStatus}
+                />
+              )}
+            />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
 
-}
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
 }
 
 function About() {
